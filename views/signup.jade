@@ -1,0 +1,43 @@
+extends layout
+
+block content
+	div.containter
+		form(class='col-sm-offset-4 col-sm-4 form-horizontal' role="form" method="post" action="/signup" onsubmit="return flase")
+			div(class='panel panel-default')
+				div(class='panel-heading')
+					p.tc #{title}
+			p
+				input(type='input'  class="form-control" id="username" name="username" placeholder="请输入用户名" required)
+			p
+				input(type='password'  class="form-control" id="password" name="password" placeholder="请输入密码" required)
+			p
+				input(type='password'  class="form-control" id="password1" name="password1" placeholder="请再次输入密码" required)
+			p
+				button(type="submit" class="btn btn-primary btn-block" id="login1") 登陆
+				button(type="button" class="btn btn-primary btn-block" id="register1") 注册
+	script.
+		window.onload=function(){
+			$("#login1").click(function(){ 
+		       location.href = 'login';
+		    });
+			$("#register1").click(function(){ 
+				var username = $("#username").val();
+				var password = $("#password").val();
+				var password1 = $("#password1").val();
+				if(password !== password1){ 
+					$("#password").css("border","1px solid red");
+					$("#password1").css("border","1px solid red");
+				}else if(password === password1){
+						var data = {"username":username,"password":password};
+						$.post("/signup",{
+							username:username,
+							password:password
+						},
+						function(data,status){
+							alert(data);
+							$("input").val("");
+						});
+				}
+			});
+		}
+	

@@ -1,0 +1,62 @@
+extends layout
+
+block content
+
+	div.containter
+		form(class='col-sm-offset-4 col-sm-4 form-horizontal' role="form" method="post" action="/login" onSubmit="return false")
+			div(class='panel panel-default')
+				div(class='panel-heading')
+					p.tc #{title}
+			p
+				input(type='text'  class="form-control" id="title" name="title" placeholder="请输入标题" required)
+			p
+				input(type='text'  class="form-control" id="author" name="author" placeholder="请输入作者" required)
+			p
+				input(type='text'  class="form-control" id="date" name="date" placeholder="请输入日期" required)
+			p
+			script(id='editor' name='editor' type='text/plain' style='width:100%;height:500px;'  required) 
+
+			p
+				button(type="button" class="btn btn-primary btn-block" id="login1") 发表
+			form(id="myForm",method='post', action='/upload', enctype='multipart/form-data')
+				文章缩略图
+				input(name='inputFile',id="inputFile",type='file', onchange="upImage()" required)
+			img(id="test",src="/uploadFile/files/pp1-1.jpg",style="display:none")
+
+	script(type='text/javascript', charset='utf-8', src='/ueditor/ueditor.config.js')
+	script(type='text/javascript', charset='utf-8', src='/ueditor/ueditor.all.min.js')
+	script(type='text/javascript', charset='utf-8', src='/ueditor/lang/zh-cn/zh-cn.js')
+	script.
+		function upImage(){
+			var formData = new FormData();
+			formData.append('file', $('#inputFile')[0].files[0]);
+			$.ajax({
+				url: '/upload',
+				type: 'POST',
+				cache: false,
+				data: formData,
+				processData: false,
+				contentType: false
+			}).done(function(res) {
+				$("#test").attr("src",res)
+				$("#test").css("display","block")
+
+				}).fail(function(res) {});
+		}
+		window.onload=function(){
+			var ue = UE.getEditor('editor');
+			var test = document.getElementById('editor')
+			$("#login1").click(function(){ 
+					$.post("/admin",{
+						title : $("#title").val(),
+						author : $("#author").val(),
+						date : $("#date").val(),
+						body : UE.getEditor('editor').getContent(),
+						pic : $("#test").attr("src")
+					},function(data){
+						alert(data);
+		       			location.reload();
+					})
+			});
+		}
+

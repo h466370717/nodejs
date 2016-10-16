@@ -1,0 +1,246 @@
+extends layout
+block content
+    #home.header
+      nav.navbar.navbar-default
+        .container
+          // Brand and toggle get grouped for better mobile display
+          .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+              span.sr-only Toggle navigation
+              
+              span.icon-bar
+              
+              span.icon-bar
+              
+              span.icon-bar
+            
+            a.navbar-brand(href='/')
+              h1 Demo
+              br
+              span Blog
+          // Collect the nav links, forms, and other content for toggling
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-right.margin-top.cl-effect-2
+              li
+                a(href='/')
+                  span(data-hover='Home') Home
+              
+              li
+                a(href='about.html')
+                  span(data-hover='About') About
+              
+              li
+                a(href='typography.html')
+                  span(data-hover='Shortcodes') Shortcodes
+              
+              li
+                a(href='gallery.html')
+                  span(data-hover='Gallery') Gallery
+              
+              li
+                a(href='contact.html')
+                  span(data-hover='You have logined') #{user}
+              
+            &#x9;
+            .clearfix
+          // /.navbar-collapse
+          .clearfix
+        // /container-fluid
+      
+      .header-banner
+        // Top Navigation
+        .container.page-seperator
+          section.color.bgi
+            .container
+              .banneer-text
+                h3 Show your ideas here.
+                
+                h4 Share  thoughtful thoughts!
+                &#x9;
+                
+                button.btn.btn-warning.but1(type='button') Explore
+                
+                p
+                  | My english is bad , i don't konw how to fill this place. But don't care ! The following is the same
+              
+              .banner-forms
+                form(method="post" action="/login" onSubmit="return false")
+                 - if(user){
+                   span #{user} you have logined
+                 - }
+                  input.name(type='text', name='username',id='username', value='Your name', onfocus="this.value = '';", onblur="if (this.value == '') {this.value = 'Your name';}")
+                  
+                  input.nuber(type='text', name='password',id='password', value='Phone Number', onfocus="this.value = '';", onblur="if (this.value == '') {this.value = 'Phone Number';}")
+                  
+                  button.btn.btn-info.mrgn-can Clear
+                  
+                  button.btn.btn-info.mrgn-can(type='button' id="login1") Login
+              
+              .clearfix  
+          
+          section.col-3.ss-style-doublediagonal.our-features
+          
+            .container  
+              hr
+              h2 Our features
+              &#x9;
+              p Paragraphs lorem ipsum simply a dummy text to format fonts and
+              &#x9;
+              .col-md-4.column.our-feat
+                h3 Format fonts lorem ipsum simply a dummy text to and paragraphs
+                &#x9;
+                p
+                  | Like the first place you have seen!
+              &#x9;&#x9;
+              .col-md-4.column.our-feat
+                h3 Lorem ipsum simply a dummy text to format fonts and paragraphs
+                &#x9;
+                p
+                  | Like the left place you have seen!
+              &#x9;&#x9;
+              .col-md-4.column.our-feat
+                h3 A dummy text to format fonts and paragraphs lorem ipsum simply
+                &#x9;
+                p
+                  | Like the left two place you have seen!
+            &#x9;
+            .clearfix  
+    .copyrights
+      | Collect from 
+      a(href='http://www.cssmoban.com/') &#x4F01;&#x4E1A;&#x7F51;&#x7AD9;&#x6A21;&#x677F;
+    
+    .index-abt
+      .container
+        .col-md-3.index-abt1
+          .abt-img
+            i.glyphicon.glyphicon-euro  
+          
+          h3 Voluptatem
+          
+          p
+            | I don't care what the author siad
+        
+        .col-md-3.index-abt1
+          .abt-img
+            i.glyphicon.glyphicon-share  
+          
+          h3 Accusantium
+          
+          p
+            | What I need to do just fill them all
+        
+        .col-md-3.index-abt1
+          .abt-img
+            i.glyphicon.glyphicon-screenshot  
+          
+          h3 Dolore magna
+          
+          p
+            | So I fill it
+        
+        .col-md-3.index-abt1
+          .abt-img
+            i.glyphicon.glyphicon-btc  
+          
+          h3 Eros Integer
+          
+          p
+            | Then i'm lack of words
+    .index-p
+      .container
+        .col-md-6.green-gird
+          img(src='images/index-p.jpg', alt='')
+          
+          img(src='images/index-p1.jpg', alt='')
+        
+        .col-md-6.index-ptext
+          h3 Sed ut perspiciatis unde omnis iste natus error
+          
+          p
+            | Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+          
+          a(href='about.html')
+            | Read More
+            i.glyphicon.glyphicon-arrow-right  
+    .clearfix  
+    .index-works
+      .container
+       - for (var i = 0 ; i < data.length ; i++){
+                 div(class='col-md-4 col1')
+                  figure(class='effect-bubba')
+                   img(class="img-responsive" src="#{data[i].pic}")
+                   figcaption
+                    h4 Article description
+                    p #{data[i].author}
+                  .clearfix
+                  .effect-gird
+                   h3 #{data[i].title}
+                   p!= data[i].body
+           
+       - }
+    script(src='js/responsiveslides.min.js')
+    |  
+    script.
+      $(function () {
+        $("#login1").click(function(){ 
+           var username = $("#username").val();
+           var password = $("#password").val();
+           var data = {"uname":username,"upwd":password};
+           $.post("/login",{
+              username : username,
+              password : password
+           },function(data){
+              alert(data);
+              location.reload();
+           })
+        });
+      $("#slider").responsiveSlides({
+      auto: true,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: true,
+      });
+      });
+    .slider
+      .container
+        .callbacks_container
+          ul#slider.rslides
+            li
+              h3
+                | On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue
+             
+            li
+              h3
+                | DenounceOn the other hand, we with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue
+             
+            li
+              h3
+                | Righteous On the other hand, we denounce with indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue
+    // footer-starts
+    .footer
+      .container
+        
+          
+          .clearfix  
+        
+        .copy-rights
+          p
+            | Copyright &copy; 2015.Company name All rights reserved.
+            a(target='_blank', href='http://www.cssmoban.com/') test
+      
+    script(type='text/javascript').
+      $(document).ready(function() {
+      /*
+      var defaults = {
+      containerID: 'toTop', // fading element id
+      containerHoverID: 'toTopHover', // fading element hover id
+      scrollSpeed: 1200,
+      easingType: 'linear'
+      };
+      */
+      $().UItoTop({ easingType: 'easeOutQuart' });
+      });
+    a#toTop(href='#to-top', style='display: block;')
+      span#toTopHover(style='opacity: 1;')  
+    // 
