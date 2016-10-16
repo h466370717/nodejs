@@ -23,6 +23,13 @@ router.use(bodyParser.urlencoded({extended:false}));//预防bodyParser过期问�
 //引用控制器文件
 var IndexCtroller = require('../controller/controller').IndexCtroller;
 
+/* 初始化数据库 */
+router.get('/init', function(req, res, next) {
+    
+    //使用控制器
+    IndexCtroller.init(req,res);
+
+});
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	

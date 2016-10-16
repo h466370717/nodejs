@@ -99,5 +99,18 @@ IndexCtroller.checkLogin = function(req,res,json,fn){
 	}
 }
 
+IndexCtroller.init = function(req,res){
+	var obj = this.conn;
+	var data = {username:'admin',password:'admin'};
+	var user = 'user';
+	var article = 'articles';
+	obj.query('create table '+user+' (id int not null primary key auto_increment,username varchar(15) not null,password varchar(15) not null)',function(){
+		obj.query('insert into user set ?',data);
+		obj.query('create table '+article+' (id int not null primary key auto_increment,title varchar(15) not null,date varchar(15) not null,body text not null,author varchar(15) not null,pic varchar(40) not null)',function(err,results){
+			res.render('index');
+		})
+	});
+	
+}
 //传出控制器
 exports.IndexCtroller = IndexCtroller;
